@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".splashscreen"
+    android:background="@color/colorPrimary"
+    android:id="@+id/splashscreen">
+
+    <ImageView
+        android:id="@+id/foto"
+        android:layout_width="303dp"
+        android:layout_height="240dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/spongebob">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/foto"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="130dp"
+        android:text="Welcome.."
+        android:textColor="#ffff"
+        android:textSize="30dp"></TextView>
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="210dp"
+        android:layout_below="@+id/welcome"
+        android:text="Copyright@PatrickStar"
+        android:textSize="15dp"
+        android:textColor="#ffff"
+        android:layout_marginLeft="120dp">
+    </TextView>
+
+</RelativeLayout>
