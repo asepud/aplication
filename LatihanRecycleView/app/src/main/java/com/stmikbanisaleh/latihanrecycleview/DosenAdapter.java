@@ -6,6 +6,8 @@ import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,14 +19,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DosenAdapter extends RecyclerView.Adapter<DosenAdapter.DosenviewHolder> {
+public class DosenAdapter extends RecyclerView.Adapter<DosenAdapter.DosenviewHolder> implements Filterable {
     private Context context;
     private List<Dosen> list = new ArrayList<>();
+    private List<Dosen> filteredList = new ArrayList<>();
     private Map<String, String> initialColor = new HashMap<>();
+    private View.OnClickListener listener;
 
-    public DosenAdapter(Context context, List<Dosen> list){
+    public DosenAdapter(Context context, List<Dosen> list, View.OnClickListener OnClickListener){
         this.context = context;
         this.list= list;
+        this.filteredList = list;
         initialColor.put("M", "#00aaaa");
         initialColor.put("S", "#0000aa");
         initialColor.put("H", "#aa0000");
@@ -36,13 +41,14 @@ public class DosenAdapter extends RecyclerView.Adapter<DosenAdapter.DosenviewHol
     @Override
     public DosenviewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_layout, parent, false);
+        view.setOnClickListener(listener);
         DosenviewHolder holder = new DosenviewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull DosenviewHolder holder, int position) {
-        Dosen dosen = list.get(position);
+        Dosen dosen = filteredList.get(position);
         holder.textNama.setText(dosen.getNama());
         holder.textkompetensi.setText(dosen.getKomptensi());
         String textstatus = (dosen.isStatus()? " " : "Tidak") + "Hadir";
@@ -57,7 +63,34 @@ public class DosenAdapter extends RecyclerView.Adapter<DosenAdapter.DosenviewHol
 
     @Override
     public int getItemCount() {
-       return list.size();
+
+        return filteredList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence Constraint) {
+                String search = Constraint.toString();
+                List<Dosen> listFilter = new ArrayList<>();
+                for (Dosen dosen : list){
+                    if (dosen.getNama().toLowerCase().contains(search.toLowerCase())){
+                        listFilter.add(dosen);
+                    }
+                }
+                filteredList = listFilter;
+                FilterResults results = new FilterResults();
+                results.values = listFilter;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults results) {
+                filteredList = (List<Dosen>) results.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public static class DosenviewHolder extends RecyclerView.ViewHolder{
