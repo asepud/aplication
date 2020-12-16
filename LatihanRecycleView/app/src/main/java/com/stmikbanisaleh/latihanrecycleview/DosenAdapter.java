@@ -36,6 +36,10 @@ public class DosenAdapter extends RecyclerView.Adapter<DosenAdapter.DosenviewHol
         initialColor.put("R", "#aaaa00");
         initialColor.put("N", "#aa00aa");
         initialColor.put("T", "#00aa00");
+        initialColor.put("B", "#0000aa");
+        initialColor.put("K", "#aa0000");
+        initialColor.put("D", "#aaaa00");
+        initialColor.put("W", "#aa00aa");
     }
     @NonNull
     @Override

@@ -16,7 +16,15 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.stmikbanisaleh.latihanrecycleview.remote.PagingResponse;
+import com.stmikbanisaleh.latihanrecycleview.remote.RetrofitClient;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView recyclerView = null;
@@ -42,10 +50,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView = findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        dao = AppDatabase.getDb(this).dosenDao();
-        list = dao.getAll();
-        adapter =  new DosenAdapter(this, list, this);
-        recyclerView.setAdapter(adapter);
+//        dao = AppDatabase.getDb(this).dosenDao();
+//        list = dao.getAll();
+        final MainActivity activity = this;
+        Call<PagingResponse> call = RetrofitClient.getInstance().getApi().getlist();
+        call.enqueue(new Callback<PagingResponse>() {
+            @Override
+            public void onResponse(Call<PagingResponse> call, Response<PagingResponse> response) {
+                list = response.body().getData();
+                adapter =  new DosenAdapter(activity, list, activity);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<PagingResponse> call, Throwable t) {
+                list = new ArrayList<>();
+                adapter =  new DosenAdapter(activity, list, activity);
+                recyclerView.setAdapter(adapter);
+            }
+        });
+
         setupDialog();
     }
 
