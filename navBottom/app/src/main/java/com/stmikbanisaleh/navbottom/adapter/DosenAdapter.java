@@ -1,6 +1,5 @@
 package com.stmikbanisaleh.navbottom;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
@@ -23,8 +22,8 @@ import java.util.Map;
 
 public class DosenAdapter extends RecyclerView.Adapter<DosenAdapter.DosenviewHolder> implements Filterable {
     private NotificationsFragment context;
-    private List<Dosen> list = new ArrayList<>();
-    private List<Dosen> filteredList = new ArrayList<>();
+    private List<Dosen> list = new ArrayList<Dosen>();
+    private List<Dosen> filteredList = new ArrayList<Dosen>();
     private Map<String, String> initialColor = new HashMap<>();
 
     public DosenAdapter(NotificationsFragment context, List<Dosen> list){
